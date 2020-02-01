@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-public class OnLoadEvent : MonoBehaviour {
+public class LoadEvent : MonoBehaviour {
 	[Header("Events")]
 	public UnityEvent OnStart;
 	public UnityEvent OnAwake;

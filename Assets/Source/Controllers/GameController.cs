@@ -1,19 +1,26 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class GameController : MonoBehaviour {
-	void LoadScene (string SceneName) {
-        // SceneManagement.LoadScene (SceneName)
+	public void LoadScene (string SceneName) {
+        StartCoroutine(LoadAsyncScene(SceneName));
     }
 
-    void Quit () {
+    public void Quit () {
         Application.Quit ();
     }
 
 	public void OpenURL (string url) {
 		Application.OpenURL (url);
 	}
+
+    IEnumerator LoadAsyncScene (string SceneName) {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(SceneName);
+        while (!asyncLoad.isDone) {
+            yield return null;
+        }
+    }
 }
 

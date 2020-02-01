@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-public class TriggerEvents : MonoBehaviour {
+public class TriggerEvent : MonoBehaviour {
 	[Header("Triggers")]
 	public string ColliderName;
 

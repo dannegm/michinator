@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-public class DelayToEvent : MonoBehaviour {
+public class DelayEvent : MonoBehaviour {
 	[Header("Triggers")]
 	public float Seconds = 5f;
 
