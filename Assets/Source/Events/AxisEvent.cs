@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class AxisEvent : MonoBehaviour
-{
-    public UnityEvent onLeft;
-    public UnityEvent onRight;
+public class AxisEvent : MonoBehaviour {
+    public UnityEvent OnLeft;
+    public UnityEvent OnRight;
 
-    void Update()
-    {
-        if (Input.GetKey(KeyCode.A) || Input.GetKey("left")) {
-            onLeft.Invoke();
+    void FixedUpdate () {
+        float direction = Input.GetAxis("Horizontal");
+        if (direction < 0) {
+            OnLeft.Invoke();
         }
 
-        if (Input.GetKey(KeyCode.D) || Input.GetKey("right")) {
-            onRight.Invoke();
+        if (direction > 0) {
+            OnRight.Invoke();
         }
     }
 }

@@ -1,49 +1,94 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
+
+    public enum Direction {
+        LEFT = -1,
+        RIGHT = 1,
+    }
+
     [Header("Models")]
-    public Player model;
-    
-    public Rigidbody body;
+    public Player playerModel;
+    public Transform playerTransform;
+    public Rigidbody playerBody;
+
+    [Header("Presets")]
+    public Transform spawnPoint;
+    public float maxSpeed = 1f;
 
     public void Jump () {
-        body.AddForce(Vector3.up * model.JumpForce);
+        playerBody.AddForce(Vector3.up * playerModel.JumpForce);
     }
 
-    public void MoveLeft() {
-        body.AddForce(Vector3.left * model.Speed);
+    public void Move (Direction direction) {
+        playerBody.AddForce(Vector3.right * (float) direction * playerModel.Speed);
+
+        float limitedSpeed = Mathf.Clamp (
+            playerBody.velocity.x,
+            -maxSpeed,
+            maxSpeed
+        );
+    
+        playerBody.velocity = new Vector3 (
+            limitedSpeed,
+            playerBody.velocity.y,
+            playerBody.velocity.z
+        );
+    }
+    public void MoveLeft () {
+        Move (Direction.LEFT);
+    }
+    public void MoveRight () {
+        Move (Direction.RIGHT);
     }
 
-    public void MoveRight() {
-        body.AddForce(Vector3.right * model.Speed);
-    }
-
-    public void StopMove () {
-        body.velocity = new Vector3(0f, 0f, 0f);
+    public void Respawn () {
+        playerTransform.position = spawnPoint.position;
     }
 
     public void onDamage() {
-        model.Health -= 1;
-        if (model.Health == 0) {
+        playerModel.Health -= 1;
+        if (playerModel.Health == 0) {
             print("Game Over Michi!");
         }
     }
 
     public void onHealing(int amount) {
-        model.Health += amount;
+        playerModel.Health += amount;
     }
 
     public void onLosingOxygen() {
-        model.Oxygen -= 1;
-        if (model.Oxygen <= 25 && model.Oxygen % 5 == 0) {
-            model.Health -=1;
+        playerModel.Oxygen -= 1;
+        if (playerModel.Oxygen <= 25 && playerModel.Oxygen % 5 == 0) {
+            playerModel.Health -=1;
         }
     }
 
     public void onGainingOxygen(int oxygen) {
-        model.Oxygen += oxygen;
+        playerModel.Oxygen += oxygen;
     }
 
+    // > Collisions
+	void OnCollisionEnter (Collision other) {
+		if (other.gameObject.tag == "Ground") {
+			playerModel.Grounded = true;
+		}
+
+		if (other.gameObject.tag == "Platform") {
+			playerModel.Grounded = true;
+            playerTransform.SetParent(other.transform.parent);
+			playerBody.velocity = new Vector3 (0, 0, 0);
+		}
+	}
+
+	void OnCollisionExit (Collision other) {
+		if (other.gameObject.tag == "Ground") {
+			playerModel.Grounded = false;
+		}
+
+		if (other.gameObject.tag == "Platform") {
+			playerModel.Grounded = false;
+            playerTransform.SetParent(null);
+		}
+	}
 }

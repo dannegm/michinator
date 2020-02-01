@@ -9,4 +9,5 @@ public class Player : MonoBehaviour {
     public float JumpForce = 10f;
     public float Gravity = 9.8f;
     public int Oxygen = 100;
+    public bool Grounded = false;
 }
