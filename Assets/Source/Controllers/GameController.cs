@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 	void LoadScene (string SceneName) {
-        StartCoroutine (LoadNewScene(SceneName));
+        // SceneManagement.LoadScene (SceneName)
     }
 
     void Quit () {
@@ -14,13 +14,6 @@ public class GameController : MonoBehaviour {
 
 	public void OpenURL (string url) {
 		Application.OpenURL (url);
-	}
-
-	IEnumerator LoadNewScene (string SceneName) {
-		AsyncOperation async = SceneManagement.LoadSceneAsync (SceneName);
-		while (!async.isDone) {
-			yield return null;
-		}
 	}
 }
 
