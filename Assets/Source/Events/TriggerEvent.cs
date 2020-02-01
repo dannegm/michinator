@@ -15,7 +15,7 @@ public class TriggerEvent : MonoBehaviour {
 		}
 	}
 	void OnTriggerExit (Collider other) {
-		if (other.name == ColliderName) {
+		if (other.tag == ColliderName) {
 			OnExit.Invoke ();
 		}
 	}

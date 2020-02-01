@@ -19,4 +19,8 @@ public class PlayerController : MonoBehaviour {
     public void MoveRight() {
         body.AddForce(Vector3.right * model.Speed);
     }
+
+    public void StopMove () {
+        body.velocity = new Vector3(0f, 0f, 0f);
+    }
 }

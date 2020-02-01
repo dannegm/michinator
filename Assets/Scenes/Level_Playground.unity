@@ -494,6 +494,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1694289143}
   - component: {fileID: 1694289144}
+  - component: {fileID: 1694289145}
   m_Layer: 0
   m_Name: PlayerEvents
   m_TagString: Untagged
@@ -542,25 +543,52 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: '** DOWN'
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
   OnKeyUp:
     m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1694289145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694289142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89c6c154e2118ff459ef0d54c9c1cc02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onLeft:
+    m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1235443112}
-        m_MethodName: iLog
-        m_Mode: 5
+      - m_Target: {fileID: 1093157605}
+        m_MethodName: MoveLeft
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: '** UP'
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  state: 0
-  currentTime: 0
+  onRight:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1093157605}
+        m_MethodName: MoveRight
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1724981539
 GameObject:
   m_ObjectHideFlags: 0
