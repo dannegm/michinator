@@ -12,4 +12,11 @@ public class PlayerController : MonoBehaviour {
         
     }
 
+    public void MoveLeft() {
+        body.AddForce(Vector3.left * model.Speed);
+    }
+
+    public void MoveRight() {
+        body.AddForce(Vector3.right * model.Speed);
+    }
 }
