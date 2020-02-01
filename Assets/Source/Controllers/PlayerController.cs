@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour {
     public Rigidbody body;
 
     public void Jump () {
-        
+        body.AddForce(Vector3.up * model.JumpForce);
     }
 
     public void MoveLeft() {
