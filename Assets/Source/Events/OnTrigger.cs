@@ -9,8 +9,6 @@ public class TriggerEvents : MonoBehaviour {
 	public UnityEvent OnEnter;
 	public UnityEvent OnExit;
 
-	private bool isEnter = false;
-
 	void OnTriggerEnter (Collider other) {
 		if (other.name == ColliderName) {
 			OnEnter.Invoke ();
