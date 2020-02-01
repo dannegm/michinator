@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
+public class EnemyController : MonoBehaviour {
+    [Header("Models")]
+    public Enemy model;
+    public Rigidbody body;
+
+    [Header("Constrains")]
+    public Transform PointA;
+    public Transform PointB;
+
+    public void Walk () {
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // > Debug
 }
