@@ -1,26 +1,72 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-    [Header("Models")]
-    public Player model;
 
-    public Rigidbody body;
+    public enum Direction {
+        LEFT = -1,
+        RIGHT = 1,
+    }
+
+    [Header("Models")]
+    public Player playerModel;
+    public Transform playerTransform;
+    public Rigidbody playerBody;
+
+    [Header("Presets")]
+    public Transform spawnPoint;
+    public float maxSpeed = 1f;
 
     public void Jump () {
-        body.AddForce(Vector3.up * model.JumpForce);
+        playerBody.AddForce(Vector3.up * playerModel.JumpForce);
     }
 
-    public void MoveLeft() {
-        body.AddForce(Vector3.left * model.Speed);
+    public void Move (Direction direction) {
+        playerBody.AddForce(Vector3.right * (float) direction * playerModel.Speed);
+
+        float limitedSpeed = Mathf.Clamp (
+            playerBody.velocity.x,
+            -maxSpeed,
+            maxSpeed
+        );
+    
+        playerBody.velocity = new Vector3 (
+            limitedSpeed,
+            playerBody.velocity.y,
+            playerBody.velocity.z
+        );
+    }
+    public void MoveLeft () {
+        Move (Direction.LEFT);
+    }
+    public void MoveRight () {
+        Move (Direction.RIGHT);
     }
 
-    public void MoveRight() {
-        body.AddForce(Vector3.right * model.Speed);
+    public void Respawn () {
+        playerTransform.position = spawnPoint.position;
     }
 
-    public void StopMove () {
-        body.velocity = new Vector3(0f, 0f, 0f);
-    }
+    // > Collisions
+	void OnCollisionEnter (Collision other) {
+		if (other.gameObject.tag == "Ground") {
+			playerModel.Grounded = true;
+		}
+
+		if (other.gameObject.tag == "Platform") {
+			playerModel.Grounded = true;
+            playerTransform.SetParent(other.transform.parent);
+			playerBody.velocity = new Vector3 (0, 0, 0);
+		}
+	}
+
+	void OnCollisionExit (Collision other) {
+		if (other.gameObject.tag == "Ground") {
+			playerModel.Grounded = false;
+		}
+
+		if (other.gameObject.tag == "Platform") {
+			playerModel.Grounded = false;
+            playerTransform.SetParent(null);
+		}
+	}
 }

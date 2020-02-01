@@ -6,4 +6,5 @@ public class Enemy : MonoBehaviour {
     [Header("Stats")]
     public int Health = 5; 
     public int Damage = 3;
+    public float Speed = 1f;
 }

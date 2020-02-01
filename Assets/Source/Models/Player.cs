@@ -8,4 +8,5 @@ public class Player : MonoBehaviour {
     public float Speed = 5f;
     public float JumpForce = 10f;
     public float Gravity = 9.8f;
+    public bool Grounded = false;
 }
