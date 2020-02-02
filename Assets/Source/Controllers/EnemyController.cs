@@ -10,8 +10,13 @@ public class EnemyController : MonoBehaviour {
     }
 
     [Header("Models")]
-    public Enemy model;
-    public Rigidbody body;
+    public Enemy enemyModel;
+    public Rigidbody enemyBody;
+    public Transform enemyPivot;
+
+    [Header("Visuals")]
+    public Vector3 leftDirection;
+    public Vector3 rightDirection;
 
     [Header("Constrains")]
     public Transform pointA;
@@ -27,26 +32,28 @@ public class EnemyController : MonoBehaviour {
     }
 
     public void Walk () {
-        body.AddForce (Vector3.right * ((float) direction * model.Speed));
+        enemyBody.AddForce (Vector3.right * ((float) direction * enemyModel.Speed));
         
         float limitedSpeed = Mathf.Clamp (
-            body.velocity.x,
+            enemyBody.velocity.x,
             -maxSpeed,
             maxSpeed
         );
 
-        body.velocity = new Vector3 (
+        enemyBody.velocity = new Vector3 (
             limitedSpeed,
-            body.velocity.y,
-            body.velocity.z
+            enemyBody.velocity.y,
+            enemyBody.velocity.z
         );
 
-        if (body.transform.position.x < pointA.position.x) {
+        if (enemyBody.transform.position.x < pointA.position.x) {
             direction = Direction.RIGHT;
+            enemyPivot.rotation = Quaternion.Euler(rightDirection);
         }
 
-        if (body.transform.position.x > pointB.position.x) {
+        if (enemyBody.transform.position.x > pointB.position.x) {
             direction = Direction.LEFT;
+            enemyPivot.rotation = Quaternion.Euler(leftDirection);
         }
     }
 
@@ -62,4 +69,12 @@ public class EnemyController : MonoBehaviour {
         Gizmos.DrawCube(pointA.position, cubeVectorSize);
         Gizmos.DrawCube(pointB.position, cubeVectorSize);
     }
+
+    // > Collisions
+	void OnCollisionEnter (Collision other) {
+		if (other.gameObject.tag == "Player") {
+			PlayerController player = other.transform.GetComponent<PlayerController>();
+            player.onDamage(enemyModel.Damage);
+		}
+	}
 }
