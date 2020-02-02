@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour {
     public UnityEvent OnLosingOxygen;
     public UnityEvent OnGainingOxygen;
 
+    public MeshRenderer dialogRender;
+
     void Awake () {
         planetModel = GameObject.Find("Planet").GetComponent<Planet>();
     }
