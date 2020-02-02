@@ -15,15 +15,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 349ff7b25f8834f8d93965a4f00356b9
   - enabled: 1
+    path: Assets/Scenes/Levels/Level_00.unity
+    guid: ec8803ee2282b4ee4af8292aa372bf52
+  - enabled: 1
     path: Assets/Scenes/Levels/Level_01.unity
     guid: 4d40c42048b6b4bba8387f3d0de41e24
   - enabled: 1
-    path: Assets/Scenes/Levels/Level_Playground.unity
-    guid: 8e83168128e8946e8bc8ce19f2974c86
-  - enabled: 1
-    path: Assets/Scenes/Levels/Level_Alain.unity
-    guid: af2c19094245942219ace4827f040f73
-  - enabled: 1
-    path: Assets/Scenes/Levels/Level_Dan.unity
-    guid: 82b059192e7714e32bda51e471b09c4d
+    path: Assets/Scenes/Levels/Level_02.unity
+    guid: a65f36dae3b054f51bf425aa6403f375
   m_configObjects: {}
