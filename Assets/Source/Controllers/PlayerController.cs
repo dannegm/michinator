@@ -95,10 +95,12 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void onDamage (int points) {
-        playerModel.Health -= points;
-        OnDamage.Invoke ();
+        if (playerModel.Health > 0) {
+            playerModel.Health -= points;
+            OnDamage.Invoke ();
+        }
 
-        if (playerModel.Health == 0) {
+        if (playerModel.Health < 1) {
             onDeath ();
         }
     }
