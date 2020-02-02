@@ -9,6 +9,8 @@ public class Player : MonoBehaviour {
     public float JumpForce = 10f;
     public float Oxygen = 100f;
     public bool Grounded = false;
+
+    public int ItemsFound = 0;
     public bool Alive = true;
     public bool RespawnOnDeath = true;
 
