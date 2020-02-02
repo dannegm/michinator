@@ -7,7 +7,32 @@ public class Player : MonoBehaviour {
     public int Health = 5;
     public float Speed = 5f;
     public float JumpForce = 10f;
-    public float Gravity = 9.8f;
-    public int Oxygen = 100;
+    public float Oxygen = 100f;
     public bool Grounded = false;
+    public bool Alive = true;
+    public bool RespawnOnDeath = true;
+
+    private Player originalStats;
+
+    void Awake () {
+        originalStats = Player.copy(this);
+    }
+
+    public void reset () {
+        this.Health = originalStats.Health;
+        this.Speed = originalStats.Speed;
+        this.JumpForce = originalStats.JumpForce;
+        this.Oxygen = originalStats.Oxygen;
+    }
+
+    public static Player copy (Player player) {
+        Player copyPlayer = new Player ();
+
+        copyPlayer.Health = player.Health;
+        copyPlayer.Speed = player.Speed;
+        copyPlayer.JumpForce = player.JumpForce;
+        copyPlayer.Oxygen = player.Oxygen;
+
+        return copyPlayer;
+    }
 }
