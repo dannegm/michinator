@@ -14,10 +14,13 @@ public class PlayerController : MonoBehaviour {
     public Transform playerTransform;
     public Transform playerPivot;
     public Rigidbody playerBody;
+    public GameOverController gameOverController;
 
     [Header("Visuals")]
     public Vector3 leftDirection;
     public Vector3 rightDirection;
+    public Vector3 deathPosition;
+    public Vector3 deathRotation;
 
     [Header("Presets")]
     public Transform spawnPoint;
@@ -44,39 +47,89 @@ public class PlayerController : MonoBehaviour {
     }
     
     private void Move (Direction direction) {
-        playerBody.AddForce(Vector3.right * (float) direction * playerModel.Speed);
+        if (!gameOverController.isGameOver) {
+            playerBody.AddForce(Vector3.right * (float) direction * playerModel.Speed);
 
-        float limitedSpeed = Mathf.Clamp (
-            playerBody.velocity.x,
-            -maxSpeed,
-            maxSpeed
-        );
-    
-        playerBody.velocity = new Vector3 (
-            limitedSpeed,
-            playerBody.velocity.y,
-            playerBody.velocity.z
-        );
+            float limitedSpeed = Mathf.Clamp (
+                playerBody.velocity.x,
+                -maxSpeed,
+                maxSpeed
+            );
+        
+            playerBody.velocity = new Vector3 (
+                limitedSpeed,
+                playerBody.velocity.y,
+                playerBody.velocity.z
+            );
+
+            Vector3 poseDirection = direction == Direction.LEFT ? leftDirection : rightDirection;
+            playerPivot.rotation = Quaternion.Euler(poseDirection);
+        }
+
     }
     
     public void onMoveLeft () {
         Move (Direction.LEFT);
-        playerPivot.rotation = Quaternion.Euler(leftDirection);
         OnMoveLeft.Invoke ();
     }
     public void onMoveRight () {
         Move (Direction.RIGHT);
-        playerPivot.rotation = Quaternion.Euler(rightDirection);
         OnMoveRight.Invoke ();
 
     }
 
     public void onJump () {
-        float pGravity = maxGravity / planetModel.Gravity * 100;
-        float pJumpForce = playerModel.JumpForce / 100 * pGravity;
+        if (!gameOverController.isGameOver) {
+            float pGravity = maxGravity / planetModel.Gravity * 100;
+            float pJumpForce = playerModel.JumpForce / 100 * pGravity;
 
-        playerBody.AddForce(Vector3.up * pJumpForce);
-        OnJump.Invoke ();
+            playerBody.AddForce(Vector3.up * pJumpForce);
+            OnJump.Invoke ();
+        }
+    }
+
+    public void onDamage (int points) {
+        if (!gameOverController.isGameOver) {
+            if (playerModel.Health > 0) {
+                playerModel.Health -= points;
+                OnDamage.Invoke ();
+            }
+
+            if (playerModel.Health < 1) {
+                onDeath ();
+            }
+        }
+    }
+
+    public void onHealing (int points) {
+        if (!gameOverController.isGameOver) {
+            if (playerModel.Health < maxHealt) {
+                playerModel.Health += points;
+                OnHealing.Invoke ();
+            }
+        }
+    }
+
+    public void onLosingOxygen (Planet planet) {
+        if (!gameOverController.isGameOver) {
+            float oxygenFactor = 100f - planet.Oxygen;
+            playerModel.Oxygen -= oxygenFactor;
+            OnLosingOxygen.Invoke ();
+
+            if (playerModel.Oxygen <= 25 && playerModel.Oxygen % 5 == 0) {
+                onDamage (1);
+            }
+        }
+
+    }
+
+    public void onGainingOxygen (int oxygen) {
+        if (!gameOverController.isGameOver) {
+            OnGainingOxygen.Invoke ();
+            if (playerModel.Oxygen < 100f) {
+                playerModel.Oxygen += oxygen;
+            }
+        }
     }
 
     public void onRespawn () {
@@ -89,43 +142,12 @@ public class PlayerController : MonoBehaviour {
     public void onDeath () {
         playerModel.Alive = false;
         OnDeath.Invoke ();
+
+        playerPivot.position = deathPosition;
+        playerPivot.rotation = Quaternion.Euler(deathRotation);
+
         if (playerModel.RespawnOnDeath) {
             onRespawn ();
-        }
-    }
-
-    public void onDamage (int points) {
-        if (playerModel.Health > 0) {
-            playerModel.Health -= points;
-            OnDamage.Invoke ();
-        }
-
-        if (playerModel.Health < 1) {
-            onDeath ();
-        }
-    }
-
-    public void onHealing (int points) {
-        if (playerModel.Health < maxHealt) {
-            playerModel.Health += points;
-            OnHealing.Invoke ();
-        }
-    }
-
-    public void onLosingOxygen (Planet planet) {
-        float oxygenFactor = 100f - planet.Oxygen;
-        playerModel.Oxygen -= oxygenFactor;
-        OnLosingOxygen.Invoke ();
-
-        if (playerModel.Oxygen <= 25 && playerModel.Oxygen % 5 == 0) {
-            onDamage (1);
-        }
-    }
-
-    public void onGainingOxygen (int oxygen) {
-        OnGainingOxygen.Invoke ();
-        if (playerModel.Oxygen < 100f) {
-            playerModel.Oxygen += oxygen;
         }
     }
 

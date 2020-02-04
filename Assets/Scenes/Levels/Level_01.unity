@@ -3614,17 +3614,18 @@ MonoBehaviour:
   OnTryAgain:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2044431518}
-        m_MethodName: onRespawn
-        m_Mode: 1
+      - m_Target: {fileID: 1456463573}
+        m_MethodName: LoadScene
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Level_01
           m_BoolArgument: 0
         m_CallState: 2
+  isGameOver: 0
 --- !u!1 &1240979527
 GameObject:
   m_ObjectHideFlags: 0
@@ -6876,7 +6877,7 @@ MonoBehaviour:
   Grounded: 0
   ItemsFound: 0
   Alive: 1
-  RespawnOnDeath: 0
+  RespawnOnDeath: 1
 --- !u!114 &2044431518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6894,8 +6895,11 @@ MonoBehaviour:
   playerTransform: {fileID: 2044431516}
   playerPivot: {fileID: 6538611014261360026}
   playerBody: {fileID: 2044431512}
+  gameOverController: {fileID: 1235443118}
   leftDirection: {x: 0, y: 135, z: 0}
   rightDirection: {x: 0, y: 35, z: 0}
+  deathPosition: {x: 0, y: 0.5, z: 0}
+  deathRotation: {x: 0, y: 225, z: 180}
   spawnPoint: {fileID: 1665417959}
   maxHealt: 5
   maxSpeed: 5

@@ -11,15 +11,18 @@ public class GameOverController : MonoBehaviour {
     public UnityEvent OnGameOver;
     public UnityEvent OnTryAgain;
 
+    [HideInInspector]
+    public bool isGameOver = false;
+
     public void onGameOver () {
+        isGameOver = true;
         OnGameOver.Invoke ();
-        Time.timeScale = 0;
         gameOverUI.SetActive(true);
     }
 
     public void onTryAgain () {
+        isGameOver = false;
         OnTryAgain.Invoke ();
-        Time.timeScale = 1;
         gameOverUI.SetActive(false);
     }
 }
