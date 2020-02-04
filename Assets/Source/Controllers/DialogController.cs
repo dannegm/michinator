@@ -9,11 +9,11 @@ public class DialogController : MonoBehaviour {
 
     public void showDialog (string chat) {
         text.text = chat;
-        dialog.gameObject.active = true;
+        dialog.gameObject.SetActive(true);
     }
 
     public void hideDialog () {
-        dialog.gameObject.active = false;
+        dialog.gameObject.SetActive(false);
         text.text = "";
     }
 }
